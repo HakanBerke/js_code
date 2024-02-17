@@ -23,3 +23,4 @@ newStudents.push("ahmet");
 
 console.log(students);
 console.log(newStudents);
+console.log("selammmmm");
