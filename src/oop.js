@@ -36,3 +36,15 @@
 //     carName;
 //     car
 // }
+
+function log(value) {
+    console.log(value);
+}
+
+function bolmeIslemi(num1, num2) {
+return num1 / num2;
+}
+function islemYap (num1,num2,callbackFn){
+    console.log(callbackFn(num1,num2));
+}
+islemYap(10,2,bolmeIslemi)
