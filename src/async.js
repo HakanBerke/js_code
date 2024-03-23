@@ -162,24 +162,63 @@
 // PROMİSE
 const jspURI = "https://jsonplaceholder.typicode.com";
 
-const getRequest = (endpoint) => {
-    return new Promise((resolve, reject) => {
-        const request = new XMLHttpRequest();
-        request.addEventListener("readystatechange", (err, data) => {
-            if (request.readyState === 4 && request.status === 200) {
-                const data = JSON.parse(request.responseText);
-                resolve(data)
-            }
-            else if (request.readyState === 4) {
-                reject(err)
-            }
-        }
-        )
-        request.open("GET", endpoint);
-        request.send();
-    })
-};
-getRequest(`${jspURI}/usersS`)
-    .then(data => console.table(data))
-    .catch(err => console.err(err))
-    .finally(() => console.log("FİNİSH.."))
+// const getRequest = (endpoint) => {
+//     return new Promise((resolve, reject) => {
+//         const request = new XMLHttpRequest();
+//         request.addEventListener("readystatechange", (err, data) => {
+//             if (request.readyState === 4 && request.status === 200) {
+//                 const data = JSON.parse(request.responseText);
+//                 resolve(data)
+//             }
+//             else if (request.readyState === 4) {
+//                 reject(err)
+//             }
+//         }
+//         )
+//         request.open("GET", endpoint);
+//         request.send();
+//     })
+// };
+// getRequest(`${jspURI}/users`)
+//     .then(data => console.table(data))
+//     .catch(err => console.err(err))
+//     .finally(() => console.log("FİNİSH.."))
+
+//FETCH
+//new create
+fetch(
+    `${jspURI}/todos`,
+    {
+        method: "POST",
+        body: JSON.stringify({
+            userId: 1,
+            body: "loremloremlopremloremloremlorem",
+            title: "LOREMLOREMLOREM",
+        }),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        },
+    }
+)
+    .then((response) => response.json())
+    .then((json) => console.log(json))
+
+//uptading(put)
+fetch(
+    `${jspURI}/todos`,
+    {
+        method: "PUT",
+        body: JSON.stringify({
+            id:201,
+            
+            userId: 10,
+            body: "HAKANBERKETEMUR",
+            title: "JAVASCRİPT",
+        }),
+        headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+        },
+    }
+)
+    .then((response) => response.json())
+    .then((json) => console.log(json))
