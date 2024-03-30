@@ -1,29 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Davul</title>
-    <link rel="stylesheet" href="style.css" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Arvo"
-    />
-  </head>
-  <body>
-    <h1 id="title">Drum &#129345; Kit</h1>
-    <div class="set">
-      <button class="w drum">w</button>
-      <button class="a drum">a</button>
-      <button class="s drum">s</button>
-      <button class="d drum">d</button>
-      <button class="j drum">j</button>
-      <button class="k drum">k</button>
-      <button class="l drum">l</button>
-    </div>
-    <footer>
-        Made with &#128150; in Southampton
-    </footer>
-    <script src="index.js"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Human Body</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Scene
+        const scene = new THREE.Scene();
+
+        // Camera
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5;
+
+        // Renderer
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Create a human model
+        const human = new THREE.Group();
+
+        // Head
+        const headGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+        const headMaterial = new THREE.MeshBasicMaterial({ color: 0xffccaa });
+        const head = new THREE.Mesh(headGeometry, headMaterial);
+        head.position.y = 2;
+        human.add(head);
+
+        // Body
+        const bodyGeometry = new THREE.BoxGeometry(1, 1, 0.5);
+        const bodyMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+        body.position.y = 0.75;
+        human.add(body);
+
+        // Arms
+        const armGeometry = new THREE.BoxGeometry(0.2, 1, 0.2);
+        const armMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        const leftArm = new THREE.Mesh(armGeometry, armMaterial);
+        const rightArm = new THREE.Mesh(armGeometry, armMaterial);
+        leftArm.position.set(-0.8, 0.75, 0);
+        rightArm.position.set(0.8, 0.75, 0);
+        human.add(leftArm);
+        human.add(rightArm);
+
+        // Legs
+        const legGeometry = new THREE.BoxGeometry(0.3, 1, 0.3);
+        const legMaterial = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+        const leftLeg = new THREE.Mesh(legGeometry, legMaterial);
+        const rightLeg = new THREE.Mesh(legGeometry, legMaterial);
+        leftLeg.position.set(-0.3, -0.5, 0);
+        rightLeg.position.set(0.3, -0.5, 0);
+        human.add(leftLeg);
+        human.add(rightLeg);
+
+        scene.add(human);
+
+        // Mouse movement
+        const mouse = new THREE.Vector2();
+        const raycaster = new THREE.Raycaster();
+        let isDragging = false;
+
+        function onMouseMove(event) {
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+        }
+
+        function onMouseDown(event) {
+            isDragging = true;
+        }
+
+        function onMouseUp(event) {
+            isDragging = false;
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        document.addEventListener('mousemove', onMouseMove, false);
+        document.addEventListener('mousedown', onMouseDown, false);
+        document.addEventListener('mouseup', onMouseUp, false);
+        window.addEventListener('resize', onWindowResize, false);
+
+        // Render loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Rotate human model based on mouse movement
+            if (isDragging) {
+                raycaster.setFromCamera(mouse, camera);
+                const intersects = raycaster.intersectObjects(scene.children, true);
+                if (intersects.length > 0) {
+                    human.rotation.y += intersects[0].point.x * 0.01;
+                }
+            }
+
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
 </html>
