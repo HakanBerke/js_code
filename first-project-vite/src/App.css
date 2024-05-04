@@ -1,0 +1,27 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-align: center;
+  list-style: none;
+  font-family: Arial, Helvetica, sans-serif;
+  text-decoration: none;
+}
+
+.app-level-header {
+  background-color: fuchsia;
+  color: aliceblue;
+  height: 7vh;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+nav ul {
+  display: flex;
+  gap: 15px;
+}
+nav ul a {
+  color: aliceblue;
+  font-size: 17px;
+}
