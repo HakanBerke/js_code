@@ -23,6 +23,6 @@ Header.defaultProps = {
 }
 Header.propTypes = {
     title: propTypes.string,
-    navElements: arrayOf(propTypes.string)
+    navElements: propTypes.arrayOf(propTypes.string)
 }
 export default Header;
