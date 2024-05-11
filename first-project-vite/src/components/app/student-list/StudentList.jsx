@@ -1,11 +1,11 @@
 import StudentCard from "../student-card/StudentCard"
 
-const StudentList = ({studentList}) => {
+const StudentList = ({studentList, deleteStudent}) => {
     return(
         <div className="student-list-container">
         <div className="student-list">
           {studentList.map(student => {
-            return <StudentCard student = {student} key = {student.id} /> 
+            return <StudentCard student = {student} deleteStudent={deleteStudent} key = {student.id} /> 
           })}
         </div>
       </div>

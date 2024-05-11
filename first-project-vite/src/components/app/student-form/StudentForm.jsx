@@ -13,7 +13,7 @@ const StudentForm = ({addStudent}) => {
         if (studentInput.studentName.trim() && studentInput.course.trim() && studentInput.instructor.trim()) {
           setStudentInput({ studentName: "", course: "", instructor: "" });
           setStudentInputErr({studentName:false, course:false, instructor:false})
-          addStudent({...studentInput, id:Date.now().toString()})
+          addStudent(studentInput)
         }
         else {
           !studentInput.studentName.trim() && setStudentInputErr(prevStudentInputErr => ({ ...prevStudentInputErr, studentName: true }));

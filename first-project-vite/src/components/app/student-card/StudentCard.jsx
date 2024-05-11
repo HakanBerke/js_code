@@ -1,8 +1,7 @@
-import propTypes from "prop-types";
-
-const StudentCard = ({student}) => {
+const StudentCard = ({student, deleteStudent}) => {
     return(
         <div className="student-card">
+          <span className="btn btn-delete" onClick={() => deleteStudent(student.id)}>X</span>
                 <ul>
                   <li>{student.studentName}</li>
                   <li>{student.course}</li>

@@ -1,6 +1,6 @@
 import propTypes from "prop-types";
 const Header = (props) => {
-    console.log(props);
+    // console.log(props);
     return(
         <header className="app-level-header">
             <div className="logo">

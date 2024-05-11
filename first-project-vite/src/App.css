@@ -25,3 +25,25 @@ nav ul a {
   color: aliceblue;
   font-size: 17px;
 }
+.student-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0 30px;
+}
+.student-card {
+  background-color: darkgrey;
+  color: black;
+  border: 2px solid black;
+  padding: 20px;
+  margin: 10px;
+  position: relative;
+}
+.btn-delete {
+  color: aliceblue;
+  cursor: pointer;
+  font-weight: 200px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
