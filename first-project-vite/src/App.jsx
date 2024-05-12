@@ -5,43 +5,15 @@ import "./App.css";
 import Header from "./components/shared/header/Header";
 import StudentList from "./components/app/student-list/StudentList";
 import StudentForm from "./components/app/student-form/StudentForm";
+import axios from "axios";
+import useStudent from "./hooks/student/useStudent";
 
 function App() {
-  const [studentList, setStudentList] = useState([]);
+  const {addStudent, deleteStudent, getStudents, studentList} = useStudent()
   
-  const addStudent = (newStudent) => {
-    setStudentList((prevState) => [
-      ...prevState,
-      { ...newStudent, id: Date.now().toString() },
-    ]);
-  };
-
-  const deleteStudent = (studentId) => {
-    setStudentList((prevStudentList) => {
-        return prevStudentList.filter(
-          (student) => student.id !== studentId
-        )
-    }
-  )
-  }
-  useEffect(
-    () => {
-      const getStudents = async () => {
-        try {
-          const response = await fetch("http://localhost:3000/studentList")
-          const data = await response.json()
-          setStudentList(data)
-        } catch (error) {
-          console.log(error);
-        }
-      }
-
-      getStudents();
-
-      // return () => console.log("cleanup");
-    },
-    []
-  )
+  useEffect(() => {
+    getStudents();
+  }, []);
 
   return (
     <>
@@ -52,7 +24,7 @@ function App() {
         />
         <br />
         <StudentForm addStudent={addStudent} />
-        <StudentList studentList={studentList} deleteStudent={deleteStudent}/>
+        <StudentList studentList={studentList} deleteStudent={deleteStudent} />
       </main>
     </>
   );
