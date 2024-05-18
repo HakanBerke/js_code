@@ -1,5 +1,6 @@
-import { useEffect } from "react";
-const StudentCard = ({student, deleteStudent}) => {
+import { useContext, useEffect } from "react";
+import { StudentContext } from "../../../contexts/student/StudentContext";
+const StudentCard = ({student}) => {
   // useEffect(
   //   () => {
   //     console.log(`${student.id} mounted`);
@@ -7,7 +8,7 @@ const StudentCard = ({student, deleteStudent}) => {
   //   },
   //   []
   // );
-
+const {deleteStudent} = useContext(StudentContext)
     return(
         <div className="student-card">
           <span className="btn btn-delete" onClick={() => deleteStudent(student.id)}>X</span>

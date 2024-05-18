@@ -24,6 +24,7 @@ const useStudent = () => {
     try {
       const response = await axios("http://localhost:3000/studentList");
       setStudentList(response.data);
+      console.log(response);
     } catch (error) {
       console.log(error);
     }

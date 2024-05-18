@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { StudentContext } from "../../../contexts/student/StudentContext";
 
-const StudentForm = ({addStudent}) => {
+const StudentForm = () => {
 
     const [studentInput, setStudentInput] = useState({ studentName: "", course: "", instructor: "" });
     const [studentInputErr, setStudentInputErr] = useState({ studentName: false, course: false, instructor: false });
@@ -22,6 +23,7 @@ const StudentForm = ({addStudent}) => {
         }
         setStudentInput({studentName:"", course:"", instructor:""})
       }
+      const {addStudent} = useContext(StudentContext)
       return(<form action="" className="student-form">
         <div className="input-control">
           <input
