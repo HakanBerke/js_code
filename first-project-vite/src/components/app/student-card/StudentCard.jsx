@@ -9,9 +9,16 @@ const StudentCard = ({student}) => {
   //   []
   // );
 const {deleteStudent} = useContext(StudentContext)
+const handleDelete = () => {
+  try {
+    deleteStudent(student.id)
+  } catch (error) {
+    console.log(error);
+  }
+}
     return(
         <div className="student-card">
-          <span className="btn btn-delete" onClick={() => deleteStudent(student.id)}>X</span>
+          <span className="btn btn-delete" onClick={handleDelete}>X</span>
                 <ul>
                   <li>{student.studentName}</li>
                   <li>{student.course}</li>

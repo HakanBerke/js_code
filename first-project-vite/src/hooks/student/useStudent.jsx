@@ -1,34 +1,54 @@
 import axios from "axios";
 import { useState } from "react";
+import { postStudent, deleteStudent as deleteStudentAPI, getStudents as getStudentsAPI } from "../../network/requests/studentRequests";
 
 const useStudent = () => {
-    const [studentList, setStudentList] = useState([]);
-    
-  const addStudent = async (newStudent) => {
-    const res = await axios.post(
-      "http://localhost:3000/studentList",
-      newStudent
-    );
-    setStudentList((prevState) => [...prevState, res.data]);
+
+  
+  const [studentList, setStudentList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false)
+  
+  const addStudent = async (student) => {
+   try {
+    setIsLoading(true)
+    const newStudent = await postStudent(student)
+    setStudentList((prevState) => [...prevState, newStudent]);
+   } catch (error) {
+    console.log(error);
+   }
+   finally{
+    setIsLoading(false)
+   }
   };
 
   const deleteStudent = async (studentId) => {
-    const resDel = await axios.delete(
-      `http://localhost:3000/studentList/${studentId}`
-    );
-    setStudentList((prevStudentList) => {
+    try {
+      setIsLoading(true)
+      await deleteStudentAPI(studentId)
+      setStudentList((prevStudentList) => {
       return prevStudentList.filter((student) => student.id !== studentId);
-    });
+    })
+    } catch (error) {
+      console.log(error);
+      
+    }finally{
+      setIsLoading(false)
+    }
   };
+
   const getStudents = async () => {
     try {
-      const response = await axios("http://localhost:3000/studentList");
-      setStudentList(response.data);
-      console.log(response);
+      setIsLoading(true)
+      const students = await getStudentsAPI()
+      setStudentList(students)
     } catch (error) {
       console.log(error);
     }
+    finally{
+      setIsLoading(false)
+    }
   };
-  return {addStudent, deleteStudent, getStudents, studentList}
+
+  return {addStudent, isLoading, deleteStudent, getStudents, studentList}
 }
 export default useStudent;

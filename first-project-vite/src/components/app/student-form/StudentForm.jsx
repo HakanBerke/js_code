@@ -23,7 +23,7 @@ const StudentForm = () => {
         }
         setStudentInput({studentName:"", course:"", instructor:""})
       }
-      const {addStudent} = useContext(StudentContext)
+      const {addStudent, isLoading} = useContext(StudentContext)
       return(<form action="" className="student-form">
         <div className="input-control">
           <input
@@ -52,7 +52,7 @@ const StudentForm = () => {
           />
           {studentInputErr.instructor && <p className="input-error">Enter a valid instructor!</p>}
         </div>
-        <input type="submit" value="Add Student" onClick={createStudent} />
+        {isLoading ?  <input type="submit" value="Add Student" disabled/> : <input type="submit" value="Add Student" onClick={createStudent} />}
       </form>)
     
 }
