@@ -17,6 +17,10 @@
   justify-content: space-between;
   align-items: center;
 }
+.app-level-header .logo h1{
+  color: aliceblue;
+  cursor: pointer;
+}
 nav ul {
   display: flex;
   gap: 15px;
