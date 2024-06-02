@@ -206,13 +206,13 @@ const users = [
     },
 ];
 
-// const fullName = users.map((user) => {
-//     const firstName = user.firstName.trim().split(" ").map((name) => name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()).join(" ")
-//     const lastName = user.lastName.trim().toUpperCase()
-//     return firstName + " " + lastName
-// })
+const fullName = users.map((user) => {
+    const firstName = user.firstName.trim().split(" ").map((name) => name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()).join(" ")
+    const lastName = user.lastName.trim().toUpperCase()
+    return firstName + " " + lastName
+})
 
-// console.log(fullName);
+console.log(fullName);
 const date = users.map((user) => {
     let ay = user.birthDay.month;
     switch (ay) {
@@ -260,3 +260,9 @@ const date = users.map((user) => {
 
 
 console.log(date);
+
+const birthInfo = users.map((user, index) => {
+    return `${fullName[index]} ${date[index]} tarihinde doğmuştur`;
+});
+
+console.log(birthInfo);
