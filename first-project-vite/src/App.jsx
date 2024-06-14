@@ -14,50 +14,89 @@ const initialState = { counter: 0 , error: null, lastUptaded: new Date().toLocal
 
 const reducer = (state, action) => {
   switch (action.type) {
-    
     case "INCREMENT_BY_ONE":
-      return {...state, counter: state.counter + 1, lastUptaded: new Date().toLocaleString() }
+      return { error: null, counter: state.counter + 1, lastUpdated: new Date().toLocaleString() }
     case "DECREMENT_BY_ONE":
-      return {...state, counter: state.counter - 1, lastUptaded: new Date().toLocaleString() }
+      return { error: null, counter: state.counter - 1, lastUpdated: new Date().toLocaleString() }
     case "INCREMENT":
-      return {...state, counter: state.counter + action.payload.amount, lastUptaded: new Date().toLocaleString()}
+      return { error: null, counter: state.counter + action.payload.amount, lastUpdated: new Date().toLocaleString() }
     case "DECREMENT":
-      return {...state, counter: state.counter - action.payload.amount, lastUptaded: new Date().toLocaleString()}
-    case "SET_COUNTER": 
-      return {...state, counter: action.payload.amount, lastUptaded: new Date().toLocaleString()}
+      return { error: null, counter: state.counter - action.payload.amount, lastUpdated: new Date().toLocaleString() }
+    case "SET_COUNTER":
+      return { error: null, counter: action.payload.amount, lastUpdated: new Date().toLocaleString() }
     case "RESET":
-      return { ...state, counter: 0, lastUptaded: new Date().toLocaleString()}
+      return { error: null, counter: 0, lastUpdated: new Date().toLocaleString() }
+    case "ERROR":
+      return { ...state, error: action.payload.error }
     default:
-      break;
+      return state
   }
 }
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const incByRef = createRef();
   const decByRef = createRef();
-  const setByRef = createRef();
+  const setCounterRef = createRef();
+
+  const handleIncrement = () => {
+    if (isNaN(incByRef.current.value) || incByRef.current.value === "") {
+      dispatch({ type: "ERROR", payload: { error: "Increment value must be a number" } })
+    }
+    else {
+      dispatch({ type: "INCREMENT", payload: { amount: Number(incByRef.current.value) } })
+      incByRef.current.value = null;
+    }
+  }
+
+  const handleDecrement = () => {
+    if (isNaN(decByRef.current.value) || decByRef.current.value === "") {
+      dispatch({ type: "ERROR", payload: { error: "Decrement value must be a number" } })
+    }
+    else {
+      dispatch({ type: "DECREMENT", payload: { amount: Number(decByRef.current.value) } })
+      decByRef.current.value = null;
+    }
+  }
+
+  const handleSetCounter = () => {
+    if (isNaN(setCounterRef.current.value) || setCounterRef.current.value === "") {
+      dispatch({ type: "ERROR", payload: { error: "Counter value must be a number" } })
+    }
+    else {
+      dispatch({ type: "SET_COUNTER", payload: { amount: Number(setCounterRef.current.value) } })
+      setCounterRef.current.value = null;
+    }
+  }
+
+  const handleReset = () => {
+    dispatch({ type: "RESET" });
+    incByRef.current.value = null;
+    decByRef.current.value = null;
+    setCounterRef.current.value = null;
+  }
 
 
   return (
     <>
       <main>
         <p>Counter: {state.counter}</p>
-        <p>Last Updated: {state.lastUptaded}</p>
+        <p>Last Updated: {state.lastUpdated}</p>
+        {state.error && <p style={{ color: "red" }}>{state.error}</p>}
         <br />
 
         <button onClick={() => dispatch({ type: "INCREMENT_BY_ONE" })}>Increment</button>
         <button onClick={() => dispatch({ type: "DECREMENT_BY_ONE" })}>Decrement</button>
-        <button onClick={() => dispatch({ type: "RESET" })}>Reset</button>
+        <button onClick={handleReset}>Reset</button>
         <br /><br />
 
-        <button onClick={() => dispatch({ type: "INCREMENT", payload: { amount: Number(incByRef.current.value)} })}>Inc By</button>
+        <button onClick={handleIncrement}>Inc By</button>
         <input type="text" placeholder="Increment Amount" ref={incByRef} />
         <br />
-        <button onClick={() => dispatch({ type: "DECREMENT", payload: { amount: Number(decByRef.current.value)}})}>Dec By</button>
+        <button onClick={handleDecrement}>Dec By</button>
         <input type="text" placeholder="Decrement Amount" ref={decByRef} />
         <br />
-        <button onClick={() => dispatch({type: "SET_COUNTER", payload: { amount: Number(setByRef.current.value)}})}>Set Counter</button>
-        <input type="text" placeholder="Set Amount" ref={setByRef}/>
+        <button onClick={handleSetCounter}>Set Counter</button>
+        <input type="text" placeholder="Set Amount" ref={setCounterRef} />
       </main>
     </>
   )
